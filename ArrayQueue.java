@@ -1,18 +1,15 @@
-package terrascape.utils;
-
 public class ArrayQueue<E> {
 
-    protected int headPointer = 0;
-    protected int tailPointer = 0;
-    protected Object[] elements;
+    private int headPointer = 0;
+    private int tailPointer = 0;
+    private Object[] elements;
 
     public ArrayQueue(int capacity) {
         elements = new Object[Math.max(2, capacity)];
     }
 
     public void enqueue(E element) {
-        if (incIndex(tailPointer) == headPointer)
-            grow();
+        if (incIndex(tailPointer) == headPointer) grow();
         elements[tailPointer] = element;
         tailPointer = incIndex(tailPointer);
     }
@@ -36,12 +33,6 @@ public class ArrayQueue<E> {
         return headPointer <= tailPointer ? tailPointer - headPointer : elements.length + tailPointer - headPointer;
     }
 
-    public boolean contains(E element) {
-        for (int index = headPointer; index != tailPointer; index = incIndex(index))
-            if (element.equals(elements[index])) return true;
-        return false;
-    }
-
     private void grow() {
         Object[] newElements = new Object[elements.length << 1];
 
@@ -58,7 +49,6 @@ public class ArrayQueue<E> {
     }
 
     private int incIndex(int index) {
-        index++;
-        return index >= elements.length ? 0 : index;
+        return index + 1 >= elements.length ? 0 : index + 1;
     }
 }
